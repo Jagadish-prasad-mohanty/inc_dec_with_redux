@@ -1,25 +1,35 @@
-import logo from './logo.svg';
 import './App.css';
+import  {connect} from 'react-redux';
+import * as actionCreators from './action/actionCreators';
+import React,{Component} from 'react'
 
-function App() {
+class App extends Component{
+  render(){
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app">
+      <h1>Redux INC_DEC</h1>
+      <div className="app__inc_dec">
+        <button onClick={this.props.decrement}>-</button>
+        <input type="text" value={this.props.counter} onChange={this.props.value}/>
+        <button onClick={this.props.increment}>+</button>
+      </div>
     </div>
   );
+  }
 }
 
-export default App;
+const mapStateToProps=(state)=>{
+  return {
+    counter:state.reducer
+  }
+}
+
+const mapDispatchToProps= (dispatch) =>{
+  return{
+    increment: ()=>dispatch(actionCreators.incCounter()),
+    decrement: () => dispatch(actionCreators.decCounter()),
+    value: (e) => dispatch(actionCreators.addValue(e))
+  }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(App);
